@@ -10,7 +10,6 @@ var_regex = re.compile(r'''
 
 
 def template_to_regex(template):
-    pdb.set_trace()
     regex = ''
     last_pos = 0
     for match in var_regex.finditer(template):
@@ -26,6 +25,8 @@ def template_to_regex(template):
 
 
 def load_controller(string):
+    pdb.set_trace()
     module_name, func_name = string.split(':', 1)
-    from module_name import func
-    return func
+    imported_module = __import__(module_name)
+    imported_function = getattr(imported_module, func_name)
+    return imported_function
