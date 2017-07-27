@@ -1,7 +1,6 @@
 import re
 import pdb
 
-
 var_regex = re.compile(r'''
     \{           # The exact character {
     (\w+)       # The variable name (restricted to a-z, 0-9, _)
@@ -24,3 +23,9 @@ def template_to_regex(template):
     regex += re.escape(template[last_pos:])
     regex = '^%s$' % regex
     return regex
+
+
+def load_controller(string):
+    module_name, func_name = string.split(':', 1)
+    from module_name import func
+    return func
