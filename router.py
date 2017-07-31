@@ -26,20 +26,21 @@ def template_to_regex(template):
 
 
 def load_controller(string):
-    pdb.set_trace()
     module_name, func_name = string.split(':', 1)
     imported_module = __import__(module_name)
     imported_function = getattr(imported_module, func_name)
     return imported_function
 
 
-class router(object):
+class Router(object):
     def __init__(self):
         self.routes = []
 
     def add_route(self, template, controller):
-        self.routes.append(re.compile(template_to_regex(template)),
-                           load_controller(controller))
+        if isinstance(controller, str):
+            controller = load_controller(controller)
+        self.routes.append((re.compile(template_to_regex(template)),
+                           controller),)
 
     def __call__(self, environ, start_response):
         req = Request(environ)
