@@ -43,6 +43,7 @@ class Router(object):
                            controller),)
 
     def __call__(self, environ, start_response):
+        pdb.set_trace()
         req = Request(environ)
         for regex, controller in self.routes:
             match = regex.match(req.path_info)
